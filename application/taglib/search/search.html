@@ -1,0 +1,29 @@
+<:foreach var="$[results]" val="item">
+    <li class="li_dark">${item}</li>
+</:foreach>
+<:if test="$[total]>$[offset]">
+    <:set var="resultsGames" val="bcsub($[total], $[offset])" />
+    <li class="show-more">
+        <a title="Show more results" onclick="mainSearch('$[search]', 'games', $[total], $[offset], $(this));">Show <:if test="${resultsGames}>30">30<:else>${resultsGames}</:if> more
+            <img class="svg-icon" alt="Expand Light Blue Icon" src="/public/img/svg/chevron-down.svg" width="24" height="24"/>
+        </a>
+    </li>
+</:if>
+
+
+
+<div class="list-item-cell list-item-cell-buttons">
+    <a class="backtolist" title="Back" onclick="setTimeout(function(){ window.location.reload(); });">
+        <img class="svg-icon" alt="Arrow Back Light Icon" src="/public/img/svg/icon-arrow-back-light.svg" />
+        <span>BACK</span>
+    </a>
+    <h1 class="h1_search">Search Results For: <span id="search-tag-manager">${data.search}</span></h1>
+    <:if test="${data.bonuses.total}">
+        <div>
+            <h2 class="h2_search">BONUS LISTS (${data.bonuses.total} RESULTS)</h2>
+            <ul>
+                <search:bonuses search="${data.search}" results="${data.bonuses.results}" total="${data.bonuses.total}" offset="5"/>
+            </ul>
+        </div>
+    </:if>
+</div>
