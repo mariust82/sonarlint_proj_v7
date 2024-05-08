@@ -1,0 +1,66 @@
+<:set var="bonus" val="$[bonus]" />
+
+<div class="bonus-details">
+    <site:code-tooltip code="${bonus.code}"  customClass="" />
+
+
+</div>
+
+<div class="list-item-cell list-item-cell-buttons">
+    <div class="casinos__controls">
+        <:if test="(isset($[australian]) && $[australian] == 'true')">
+            <:if test="!empty($[country])">
+                <a href="/visit/$[name_dash]" class="btn_play btn_play_casino btn-restricted" rel="nofollow" target="_blank">
+                    <span>RESTRICTED</span>
+                </a>
+                <:else>
+                    <a href="/visit/$[name_dash]" class="btn_play btn_play_casino btn-restricted" rel="nofollow">
+                        <span>RESTRICTED</span>
+                    </a>
+            </:if>
+            <:else>
+                <:if test="!empty($[country]) && (empty(${casino.status}) || is_null(${casino.status})) && ${casino.isAllowedByUserCountry} == true">
+                    <a href="/visit/$[name_dash]" class="visit-btn" rel="nofollow" target="_blank">
+                        <span>VISIT</span>
+                    </a>
+                    <:elseif test="${casino.isAllowedByUserCountry} == false && (is_null(${casino.status}) || empty(${casino.status}))">
+                        <a href="/visit/$[name_dash]" class="restricted-btn" rel="nofollow" target="_blank">
+                            <span>RESTRICTED</span>
+                        </a>
+                        <:elseif test="!empty(${casino.status}) && ${casino.status.name} == 'Blacklisted'">
+                            <a href="/warning/${strtolower(str_replace(' ', '-', $[name_dash]))}" class="blacklisted-btn"
+                               rel="nofollow" target="_blank">BLACKLISTED</a>
+                            <:elseif test="!empty(${casino.status}) && (${casino.status.name} == 'Warning' || ${casino.status.name} == 'Attention')">
+                                <a href="/warning/${strtolower(str_replace(' ', '-', $[name_dash]))}" class="warning-btn"
+                                   rel="nofollow" target="_blank">WARNING</a>
+                </:if>
+        </:if>
+    </div>
+    <div class="terms-link">
+        <:if test="$[terms_link]">
+            <:if test="$[country] != 'Australia'">
+                <:set var="isAustralia" val="_blank" />
+                <:else>
+                    <:set var="isAustralia" val="" />
+            </:if>
+            <a href="/link/$[name_dash]-terms" class="${(isset($[australian]) && $[australian] == 'true') ? ' tnc-restricted' : ''}" rel="nofollow" target="${isAustralia}">T&C Applies</a>
+        </:if>
+    </div></div>
+
+
+<div class="list-item list-item-view loaded-item">
+    <div class="list-item-cell list-item-casino">
+                    <span class="casino-title">
+                        <a href="${getBonusUrl(${bonus.id}, ${bonus.name})}">${bonus.name}</a>
+                    </span>
+    </div>
+    <div class="list-item-cell code-cell ">
+        <div class="wrap-tooltip">
+            <:if test="${bonus.code} == 'No code required' || ${bonus.code} == ''">
+                <span class="codeTooltipe codeSpan">No code required</span>
+                <:else>
+                    <div class="codeTooltipeShow" data-code="${bonus.code}">${bonus.code}</div>
+            </:if>
+        </div>
+    </div>
+</div>
