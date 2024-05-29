@@ -4,6 +4,7 @@ on:
     branches:
       - main  # The default branch
       - branch-*    # The other branches to be analyzed
+      - development
   pull_request:
     types: [opened, synchronize, reopened]
 
